@@ -178,12 +178,3 @@ Issue / PR 歓迎です！バグ報告や改善提案、機能追加のアイデ
 MIT License
 
 ---
-
-## 📝 ブログ用の案内（学習ログ風）
-
-```markdown
-コード全文はここでは長くなるので割愛しました。  
-私の GitHub に一式アップしてありますので、もし「そのまま動かしてみたい」という方は参考にしてみてください。  
-
-👉 [GitHubリポジトリを見る](https://github.com/<YOUR_USERNAME>/attendance-mvp)
-```
