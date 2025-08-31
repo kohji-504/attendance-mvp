@@ -235,6 +235,28 @@ def init_db():
     db.create_all()
     print('DB initialized')
 
+# DBフルリセット（開発用）
+@app.cli.command('reset-db')
+def reset_db():
+    import os
+    db_path = os.path.join(os.path.dirname(__file__), 'attendance.db')
+    for p in [db_path, db_path + '-wal', db_path + '-shm']:
+        try:
+            os.remove(p)
+        except FileNotFoundError:
+            pass
+    db.create_all()
+    print('DB reset.')
+
+# 最小データ投入（デモ用）
+@app.cli.command('seed')
+def seed():
+    for n in ['山田太郎', '佐藤花子', '田中一郎']:
+        if not User.query.filter_by(name=n).first():
+            db.session.add(User(name=n))
+    db.session.commit()
+    print('Seeded users.')
+    
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
