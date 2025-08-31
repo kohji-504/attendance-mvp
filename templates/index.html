@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-xl font-semibold mb-3">打刻</h1>
+
+<form method="post" action="/punch" class="bg-white p-4 rounded shadow grid grid-cols-1 md:grid-cols-3 gap-3">
+  <div>
+    <label class="block text-sm">名前</label>
+    <input required name="name" class="w-full border rounded px-3 py-2" placeholder="山田太郎" />
+  </div>
+  <div>
+    <label class="block text-sm">種別</label>
+    <select name="kind" class="w-full border rounded px-3 py-2">
+      <option value="in">出勤</option>
+      <option value="break_in">休憩開始</option>
+      <option value="break_out">休憩終了</option>
+      <option value="out">退勤</option>
+    </select>
+  </div>
+  <div class="flex items-end">
+    <button class="px-4 py-2 rounded bg-black text-white">記録</button>
+  </div>
+</form>
+
+<h2 class="text-lg font-semibold mt-6 mb-2">今日の打刻</h2>
+<table class="w-full bg-white rounded shadow">
+  <thead>
+    <tr class="text-left border-b">
+      <th class="p-2">時刻</th>
+      <th class="p-2">名前</th>
+      <th class="p-2">種別</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in punches %}
+    <tr class="border-b">
+      <td class="p-2">{{ p.ts.astimezone().strftime('%H:%M:%S') }}</td>
+      <td class="p-2">{{ p.user.name }}</td>
+      <td class="p-2">{{ {'in':'出勤','out':'退勤','break_in':'休憩開始','break_out':'休憩終了'}[p.kind] }}</td>
+    </tr>
+    {% else %}
+    <tr><td class="p-2" colspan="3">まだ記録がありません</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="mt-4">
+  <form action="/me" method="get" class="flex gap-2 items-end">
+    <div>
+      <label class="block text-sm">自分の7日間サマリ</label>
+      <input required name="name" class="border rounded px-3 py-2" placeholder="山田太郎" />
+    </div>
+    <button class="px-4 py-2 rounded bg-gray-800 text-white">表示</button>
+  </form>
+</div>
+{% endblock %}

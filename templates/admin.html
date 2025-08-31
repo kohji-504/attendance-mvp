@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-xl font-semibold mb-3">管理</h1>
+<p class="text-sm text-gray-600 mb-4">本日（{{ today.isoformat() }}）の勤務時間サマリ</p>
+<table class="w-full bg-white rounded shadow mb-6">
+  <thead>
+    <tr class="text-left border-b">
+      <th class="p-2">名前</th>
+      <th class="p-2">勤務時間 (h)</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for s in summaries %}
+    <tr class="border-b">
+      <td class="p-2">{{ s.name }}</td>
+      <td class="p-2">{{ '%.2f'|format(s.worked_hours) }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<h2 class="text-lg font-semibold mb-2">CSVエクスポート</h2>
+<form method="post" class="bg-white p-4 rounded shadow grid grid-cols-1 md:grid-cols-4 gap-3">
+  <div>
+    <label class="block text-sm">開始日</label>
+    <input type="date" name="from" class="border rounded px-3 py-2" required />
+  </div>
+  <div>
+    <label class="block text-sm">終了日</label>
+    <input type="date" name="to" class="border rounded px-3 py-2" required />
+  </div>
+  <div class="flex items-end">
+    <button class="px-4 py-2 rounded bg-black text-white">エクスポート</button>
+  </div>
+</form>
+{% endblock %}

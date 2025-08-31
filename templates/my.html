@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-xl font-semibold mb-4">{{ user.name }} さんの7日サマリ</h1>
+<table class="w-full bg-white rounded shadow">
+  <thead>
+    <tr class="text-left border-b">
+      <th class="p-2">日付</th>
+      <th class="p-2">勤務時間 (h)</th>
+      <th class="p-2">打刻詳細</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for d in days %}
+    <tr class="border-b align-top">
+      <td class="p-2">{{ d.date }}</td>
+      <td class="p-2">{{ '%.2f'|format(d.worked_hours) }}</td>
+      <td class="p-2">
+        {% for p in d.punches %}
+          <div>{{ p.ts.astimezone().strftime('%H:%M') }} - {{ {'in':'出勤','out':'退勤','break_in':'休憩開始','break_out':'休憩終了'}[p.kind] }}</div>
+        {% endfor %}
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
